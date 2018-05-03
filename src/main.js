@@ -5,6 +5,8 @@ import App from './App'
 
 import store from './store'
 
+import 'iview/dist/styles/iview.css'
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

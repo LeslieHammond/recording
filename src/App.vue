@@ -1,35 +1,53 @@
 <template>
-  <div id="app">
-    <h1>Recording</h1>
-    <Row v-if="!supportsRecording">
-      <p>Your browser does not support the recording feature.</p>
-    </Row>
-    <Row v-else>
-      <Row v-if="allowsRecording == null">
-        <Button type="primary" @click="askToAllowRecording()">Allow microphone capture</Button>
-      </Row>
-      <Row v-else-if="!allowsRecording">
-        <p>You have denied microphone recording</p>
+  <Row id="app">
+    <Col :lg="{span: 12, offset: 6}" :md="{span: 18, offset: 3}" :sm="{span: 18, offset: 3}" :xs="24">
+      <h1>Recording platform</h1>
+      <Row v-if="!supportsRecording">
+        <p>Your browser does not support the recording feature.</p>
       </Row>
       <Row v-else>
-        <Button icon="el-icon-service" @click="startRecording" circle></Button>
-        <Button icon="el-icon-delete" @click="stopRecording" circle type="danger"></Button>
-        <p>Success!</p>
+        <Row v-if="allowsRecording == null">
+          <Button type="primary" @click="askToAllowRecording()">Allow microphone capture</Button>
+        </Row>
+        <Row v-else-if="!allowsRecording">
+          <p>You have denied microphone recording</p>
+        </Row>
+        <Row v-else>
+          <!-- <Button icon="el-icon-service" @click="toggleRecording" circle v-bind:type="isRecording ? 'danger' : 'primary'"></Button> -->
+          <!-- <span class="fa-layers" @click="toggleRecording">
+            <FontAwesome icon="circle" transform="grow-10" style="color: crimson" />
+            <FontAwesome icon="circle" transform="grow-8" style="color: #fff" />
+            <FontAwesome icon="circle" transform="grow-4" style="color: crimson" />
+            <FontAwesome icon="microphone" transform="shrink-2" style="color: #fff" />
+          </span> -->
+
+          <Test
+            v-if="!hasTested"
+          />
+          <Recording
+            v-else
+          />
+        </Row>
       </Row>
-    </Row>
-  </div>
+    </Col>
+  </Row>
 </template>
 
 <script>
-import { Button, Row } from 'element-ui'
+import Test from './components/Test'
+import Recording from './components/Recording'
+import { Button, Col, Row } from 'iview'
 
 export default {
   components: {
-    Button, Row
+    Button, Col, Recording, Row, Test
   },
   computed: {
     allowsRecording: function () {
       return this.$store.getters.getAllowsRecording
+    },
+    hasTested: function () {
+      return this.$store.getters.getTested
     },
     supportsRecording: function () {
       return this.$store.getters.getSupportsRecording
@@ -43,6 +61,17 @@ export default {
         this.$store.commit('setSupportsRecording', false)
       }
     },
+    /* checkIfTested: function () {
+      const tested = readCookie('tested')
+
+      let boolean = false
+
+      if (tested === true) {
+        boolean = true
+      }
+
+      this.$store.commit('setTested', boolean)
+    }, */
     askToAllowRecording: function () {
       const self = this
       navigator.mediaDevices.getUserMedia({ audio: true, video: false })
@@ -53,30 +82,16 @@ export default {
         .catch(function (e) {
           self.$store.commit('setAllowsRecording', false)
         })
-    },
-    startRecording: function () {
-      const mediaRecorder = this.$store.getters.getMediaRecorder
-
-      mediaRecorder.start()
-    },
-    stopRecording: function () {
-      const mediaRecorder = this.$store.getters.getMediaRecorder
-
-      mediaRecorder.stop()
-
-      mediaRecorder.ondataavailable = function (e) {
-        // self.$store.commit('addChunk', e.data)
-        console.log('oda', e.data)
-      }
     }
   },
   created () {
     this.checkIfSupportsRecording()
+    // this.checkIfTested()
   }
 }
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -84,5 +99,8 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+h1 {
+  margin-bottom: 32px;
 }
 </style>

@@ -1,6 +1,10 @@
+import { read_cookie as readCookie } from 'sfcookies'
+
 export const state = {
   allowsRecording: null,
-  chunks: [],
+  isRecording: false,
   mediaRecorder: null,
-  supportsRecording: false
+  recordings: [],
+  supportsRecording: false,
+  tested: readCookie('tested') === true
 }

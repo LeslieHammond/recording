@@ -1,6 +1,8 @@
 export const getters = {
   getAllowsRecording: state => state.allowsRecording,
-  getChunks: state => state.chunks,
+  getIsRecording: state => state.isRecording,
   getMediaRecorder: state => state.mediaRecorder,
-  getSupportsRecording: state => state.supportsRecording
+  getRecordings: state => state.recordings,
+  getSupportsRecording: state => state.supportsRecording,
+  getTested: state => state.tested
 }
