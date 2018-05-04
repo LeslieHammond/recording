@@ -72,7 +72,6 @@ export default {
       this.isPlaying.audio.play()
     },
     toggleRecording: function (ref) {
-      // const ref = 'audio' + params.index
       const audio = this.$refs[ref][0]
 
       if (this.isPlaying === false) {

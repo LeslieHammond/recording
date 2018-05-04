@@ -24,6 +24,9 @@ export default {
   components: {
     Button, Col, RecordingButton, RecordingsList, Row
   },
+  created () {
+    this.shiftCurrentText()
+  },
   data () {
     return {
       currentText: '',
@@ -62,9 +65,6 @@ export default {
 
       this.$store.commit('setIsRecording', !this.$store.getters.getIsRecording)
     }
-  },
-  created () {
-    this.shiftCurrentText()
   }
 }
 </script>

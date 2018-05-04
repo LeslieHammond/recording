@@ -13,14 +13,6 @@
           <p>You have denied microphone recording</p>
         </Row>
         <Row v-else>
-          <!-- <Button icon="el-icon-service" @click="toggleRecording" circle v-bind:type="isRecording ? 'danger' : 'primary'"></Button> -->
-          <!-- <span class="fa-layers" @click="toggleRecording">
-            <FontAwesome icon="circle" transform="grow-10" style="color: crimson" />
-            <FontAwesome icon="circle" transform="grow-8" style="color: #fff" />
-            <FontAwesome icon="circle" transform="grow-4" style="color: crimson" />
-            <FontAwesome icon="microphone" transform="shrink-2" style="color: #fff" />
-          </span> -->
-
           <Test
             v-if="!hasTested"
           />
@@ -61,17 +53,6 @@ export default {
         this.$store.commit('setSupportsRecording', false)
       }
     },
-    /* checkIfTested: function () {
-      const tested = readCookie('tested')
-
-      let boolean = false
-
-      if (tested === true) {
-        boolean = true
-      }
-
-      this.$store.commit('setTested', boolean)
-    }, */
     askToAllowRecording: function () {
       const self = this
       navigator.mediaDevices.getUserMedia({ audio: true, video: false })
@@ -86,7 +67,6 @@ export default {
   },
   created () {
     this.checkIfSupportsRecording()
-    // this.checkIfTested()
   }
 }
 </script>
